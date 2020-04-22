@@ -10,20 +10,21 @@ const formatCount = count => {
     if (count) {
         // count = 2.5 --> 2 1/2
         // count = 0.5 --> 1/2
-        const [int, dec] = count.toString().split('.').map(el => +el);
+        const newCount = Math.round(count * 10000) / 10000;
+        const [int, dec] = newCount.toString().split('.').map(el => +el);
 
-        if (!dec) return count;
+        if (!dec) return newCount;
 
 
         if (int == 0) {
             if (dec.toString().slice(0,2)==33) return '1/3';
             if (dec.toString().slice(0,2)==66) return '2/3';
-            const fr = new Fraction(count);
+            const fr = new Fraction(newCount);
             return `${fr.numerator}/${fr.denominator}`;
         } else {
             if (dec.toString().slice(0,2)==33) return `${int} 1/3`;
             if (dec.toString().slice(0,2)==66) return `${int} 2/3`;
-            const fr = new Fraction(count - int);
+            const fr = new Fraction(newCount - int);
             return `${int} ${fr.numerator}/${fr.denominator}`;
         }
     }
